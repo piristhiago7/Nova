@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NOVA VOGUE | Panel de Administración y Finanzas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/admin.css">
+  <link rel="icon" type="image/png" href="./assets/nova-vogue-icon.png">
+</head>
+<body>
+
+  <!-- AUTH / LOGIN VIEW -->
+  <div class="auth-wrapper" id="auth-view">
+    <div class="auth-card">
+      <img src="./assets/nova-vogue-logo-full.jpg" alt="Nova Vogue" class="auth-logo" />
+      <h2 class="auth-title">Acceso de Administración</h2>
+      <p class="auth-desc">Gestión integral comercial, financiera y de pedidos de Nova Vogue.</p>
+
+      <form id="login-form">
+        <div class="auth-alert" id="login-alert"></div>
+
+        <div class="auth-input-wrap">
+          <input type="password" id="login-password" class="auth-input" placeholder="••••••••" required autocomplete="current-password" autofocus />
+        </div>
+
+        <button type="submit" class="admin-btn admin-btn-primary" id="btn-login" style="width: 100%; padding: 0.85rem;">
+          Ingresar al Panel
+        </button>
+      </form>
+      <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 1.5rem;">
+        Puerto Iguazú, Misiones • Sesión Cifrada y Segura
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN SHELL -->
+  <div class="admin-shell" id="admin-shell" style="display: none;">
+    
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar" id="admin-sidebar">
+      <div class="sidebar-header">
+        <img src="./assets/nova-vogue-icon.png" alt="NV" class="sidebar-brand-img" />
+        <div>
+          <div class="sidebar-brand-title">NOVA VOGUE</div>
+          <div style="font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Admin & Finanzas</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button type="button" class="nav-item-btn active" data-tab="overview">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"/>
+            <rect x="14" y="3" width="7" height="7"/>
+            <rect x="14" y="14" width="7" height="7"/>
+            <rect x="3" y="14" width="7" height="7"/>
+          </svg>
+          <span>Resumen General</span>
+        </button>
+
+        <button type="button" class="nav-item-btn" data-tab="finance">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="1" x2="12" y2="23"/>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+          <span>Control Financiero</span>
+        </button>
+
+        <button type="button" class="nav-item-btn" data-tab="orders">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <span>Gestión de Pedidos</span>
+          <span class="nav-badge-pill" id="badge-orders-count" style="display: none;">0</span>
+        </button>
+
+        <button type="button" class="nav-item-btn" data-tab="products">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+            <line x1="7" y1="7" x2="7.01" y2="7"/>
+          </svg>
+          <span>Catálogo & Stock</span>
+        </button>
+
+        <button type="button" class="nav-item-btn" data-tab="fixed">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          <span>Costos Fijos</span>
+        </button>
+
+        <button type="button" class="nav-item-btn" data-tab="variable">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+            <polyline points="2 17 12 22 22 17"/>
+            <polyline points="2 12 12 17 22 12"/>
+          </svg>
+          <span>Costos Variables</span>
+        </button>
+
+        <button type="button" class="nav-item-btn" data-tab="custom">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="6" cy="6" r="3"/>
+            <circle cx="6" cy="18" r="3"/>
+            <line x1="20" y1="4" x2="8.12" y2="15.88"/>
+            <line x1="14.47" y1="14.48" x2="20" y2="20"/>
+            <line x1="8.12" y1="8.12" x2="12" y2="12"/>
+          </svg>
+          <span>Personalizaciones</span>
+        </button>
+
+        <button type="button" class="nav-item-btn" data-tab="settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+          <span>Configuración</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="/" target="_blank" class="btn-sidebar-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+          <span>Ver Tienda Online</span>
+        </a>
+
+        <button type="button" class="btn-sidebar-link" id="btn-logout" style="color: var(--accent-red); width: 100%; border: none; background: none; text-align: left;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          <span>Cerrar Sesión</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN VIEW -->
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div class="topbar-title-wrap">
+          <h1 id="topbar-heading">Panel de Control & Finanzas</h1>
+        </div>
+        <div class="topbar-right">
+          <span class="badge-live-dot">Sistema en línea • Puerto Iguazú</span>
+        </div>
+      </header>
+
+      <div class="admin-view-content">
+
+        <!-- 1. TAB: RESUMEN GENERAL -->
+        <section class="tab-pane active" id="tab-overview">
+          <div class="metrics-grid">
+            <div class="metric-card metric-highlight-blue">
+              <span class="metric-label">Facturación Total (Ventas)</span>
+              <span class="metric-val" id="kpi-revenue">$ 0</span>
+              <span class="metric-foot">Ingresos brutos acumulados</span>
+            </div>
+
+            <div class="metric-card metric-highlight-green">
+              <span class="metric-label">Ganancia Neta Estimada</span>
+              <span class="metric-val" id="kpi-net-profit">$ 0</span>
+              <span class="metric-foot">Tras costos variables y fijos</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-label">Margen Neto</span>
+              <span class="metric-val" id="kpi-net-margin">0%</span>
+              <span class="metric-foot">Rentabilidad sobre ventas</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-label">Pedidos Confirmados</span>
+              <span class="metric-val" id="kpi-orders-count">0</span>
+              <span class="metric-foot">Operaciones activas registradas</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-label">Ticket Promedio</span>
+              <span class="metric-val" id="kpi-ticket">$ 0</span>
+              <span class="metric-foot">Gasto medio por cliente</span>
+            </div>
+          </div>
+
+          <!-- Charts -->
+          <div class="charts-grid">
+            <div class="chart-card">
+              <div class="chart-card-header">
+                <h3 class="chart-card-title">Evolución de Ingresos vs Costos Directos</h3>
+              </div>
+              <div class="chart-canvas-wrap">
+                <canvas id="chart-monthly"></canvas>
+              </div>
+            </div>
+
+            <div class="chart-card">
+              <div class="chart-card-header">
+                <h3 class="chart-card-title">Estructura de Costos</h3>
+              </div>
+              <div class="chart-canvas-wrap">
+                <canvas id="chart-cost-structure"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. TAB: CONTROL FINANCIERO -->
+        <section class="tab-pane" id="tab-finance">
+          <div class="section-header" style="text-align: left; margin-bottom: 2rem;">
+            <h2 style="font-size: 1.5rem; font-weight: 700; text-transform: uppercase;">Calculadora y Control Financiero Integral</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+              Análisis dinámico de rentabilidad, punto de equilibrio en pesos y prendas, y simulador de resultados comerciales.
+            </p>
+          </div>
+
+          <div class="finance-breakdown-grid">
+            <!-- Box 1: Costos Fijos Mensuales -->
+            <div class="finance-box">
+              <div class="finance-box-title">
+                <span>Estructura de Costos Fijos</span>
+                <span class="badge badge-charcoal">Mensual</span>
+              </div>
+              <div class="finance-row">
+                <span>Total Fijo Mensual</span>
+                <strong id="fin-fixed-total" style="color: var(--accent-blue);">$ 0</strong>
+              </div>
+              <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.75rem; line-height: 1.4;">
+                Incluye alquiler comercial, salarios, energía eléctrica, fibra óptica, mantenimiento y software.
+              </p>
+            </div>
+
+            <!-- Box 2: Costos Variables -->
+            <div class="finance-box">
+              <div class="finance-box-title">
+                <span>Costos Variables de Ventas</span>
+                <span class="badge badge-charcoal">Por Operación</span>
+              </div>
+              <div class="finance-row">
+                <span>Costos Directos de Venta</span>
+                <strong id="fin-var-sales">$ 0</strong>
+              </div>
+              <div class="finance-row">
+                <span>Costo Medio de Fabricación / Prenda</span>
+                <strong id="fin-cost-per-unit">$ 0</strong>
+              </div>
+              <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.75rem; line-height: 1.4;">
+                Confección de telas pesadas, bordados, packaging individual, envíos y comisiones de pasarela.
+              </p>
+            </div>
+
+            <!-- Box 3: Márgenes y Resultados -->
+            <div class="finance-box">
+              <div class="finance-box-title">
+                <span>Rendimiento Global</span>
+                <span class="badge badge-charcoal">Rentabilidad</span>
+              </div>
+              <div class="finance-row">
+                <span>Facturación Bruta</span>
+                <strong id="fin-revenue">$ 0</strong>
+              </div>
+              <div class="finance-row">
+                <span>Ganancia Bruta</span>
+                <strong id="fin-gross-profit">$ 0</strong>
+              </div>
+              <div class="finance-row">
+                <span>Margen Bruto</span>
+                <strong id="fin-gross-margin">0%</strong>
+              </div>
+              <div class="finance-row total">
+                <span>Ganancia Neta</span>
+                <strong id="fin-net-profit" style="color: var(--accent-green);">$ 0</strong>
+              </div>
+              <div class="finance-row">
+                <span>Margen Neto</span>
+                <strong id="fin-net-margin">0%</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Punto de Equilibrio Card -->
+          <div class="admin-table-card" style="padding: 1.5rem; margin-bottom: 2rem;">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <span class="metric-label">Punto de Equilibrio (Break-Even Point)</span>
+                <h3 style="font-size: 1.25rem; font-weight: 700; margin-top: 0.25rem;">¿Cuánto debe vender Nova Vogue para cubrir todos sus costos fijos y variables?</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+                  A partir de este volumen, cada prenda adicional genera ganancia neta pura para el emprendimiento.
+                </p>
+              </div>
+
+              <div style="display: flex; gap: 2rem; align-items: center;">
+                <div style="text-align: right;">
+                  <span style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted);">En Prendas Mensuales</span>
+                  <div style="font-size: 1.75rem; font-weight: 800; color: var(--accent-amber);" id="fin-breakeven-units">0 prendas</div>
+                </div>
+
+                <div style="text-align: right;">
+                  <span style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted);">En Facturación ARS</span>
+                  <div style="font-size: 1.75rem; font-weight: 800; color: var(--text-main);" id="fin-breakeven-revenue">$ 0</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Simulator -->
+          <div class="simulator-card">
+            <div class="simulator-header">
+              <span class="badge badge-charcoal" style="margin-bottom: 0.5rem;">Simulador Financiero en Tiempo Real</span>
+              <h3 class="simulator-title">Simulador de Meta de Ganancia Neta Mensual</h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">
+                Ingresá cuánto querés ganar de bolsillo al mes (libre de costos) y el sistema calculará exactamente cuántas prendas tenés que vender.
+              </p>
+            </div>
+
+            <div class="simulator-grid">
+              <div>
+                <label class="form-label" for="sim-target-profit">Meta de Ganancia Neta Mensual Deseada (ARS):</label>
+                <input type="number" id="sim-target-profit" class="admin-input" value="500000" step="50000" style="font-size: 1.15rem; font-weight: 700; padding: 0.75rem;" />
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">
+                  Modificá el monto para ver el cálculo instantáneo según la estructura actual de costos.
+                </div>
+              </div>
+
+              <div class="sim-result-box">
+                <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.25rem;">Prendas Necesarias a Vender</div>
+                <div class="sim-result-number" id="sim-result-units">0 prendas</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted);">
+                  Facturación mensual requerida: <strong id="sim-result-revenue" style="color: var(--text-main);">$ 0</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. TAB: GESTIÓN DE PEDIDOS & DESGLOSE INDIVIDUAL -->
+        <section class="tab-pane" id="tab-orders">
+          <div class="admin-table-card">
+            <div class="table-toolbar">
+              <div>
+                <h3 style="font-size: 1rem; font-weight: 700; text-transform: uppercase;">Registro Oficial de Pedidos</h3>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Cada pedido incluye su desglose financiero individual de ganancia neta.</span>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <label style="font-size: 0.8rem; color: var(--text-muted);">Filtrar por estado:</label>
+                <select id="filter-order-status" class="admin-select" style="width: auto;">
+                  <option value="Todos">Todos los estados</option>
+                  <option value="Pendiente">Pendiente</option>
+                  <option value="Confirmado">Confirmado</option>
+                  <option value="En preparación">En preparación</option>
+                  <option value="Listo para retirar">Listo para retirar</option>
+                  <option value="Enviado">Enviado</option>
+                  <option value="Entregado">Entregado</option>
+                  <option value="Cancelado">Cancelado</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>N° Pedido</th>
+                    <th>Cliente</th>
+                    <th>Entrega</th>
+                    <th>Prendas</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                    <th>Ganancia Bruta</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="orders-tbody">
+                  <!-- Rendered by admin.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. TAB: PRODUCTOS & STOCK -->
+        <section class="tab-pane" id="tab-products">
+          <div class="admin-table-card">
+            <div class="table-toolbar">
+              <div>
+                <h3 style="font-size: 1rem; font-weight: 700; text-transform: uppercase;">Catálogo de Prendas & Stock</h3>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Administrá precios, costos de confección, talles y fotografías.</span>
+              </div>
+              <button type="button" class="admin-btn admin-btn-primary" onclick="openNewProductModal()">
+                + Nueva Prenda
+              </button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Foto</th>
+                    <th>Prenda / Categoría</th>
+                    <th>Precio Venta</th>
+                    <th>Costo Confección</th>
+                    <th>Margen Unitario</th>
+                    <th>Stock</th>
+                    <th>Vendidos</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="products-tbody">
+                  <!-- Rendered by admin.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. TAB: COSTOS FIJOS -->
+        <section class="tab-pane" id="tab-fixed">
+          <div class="admin-table-card">
+            <div class="table-toolbar">
+              <div>
+                <h3 style="font-size: 1rem; font-weight: 700; text-transform: uppercase;">Costos Fijos Mensuales</h3>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">
+                  Total Fijo Mensual: <strong id="fixed-total-sum" style="color: var(--accent-blue);">$ 0</strong>
+                </span>
+              </div>
+              <button type="button" class="admin-btn admin-btn-primary" onclick="openNewFixedCostModal()">
+                + Registrar Costo Fijo
+              </button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Concepto</th>
+                    <th>Categoría</th>
+                    <th>Monto Mensual (ARS)</th>
+                    <th>Frecuencia</th>
+                    <th>Notas</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="fixed-tbody">
+                  <!-- Rendered by admin.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. TAB: COSTOS VARIABLES -->
+        <section class="tab-pane" id="tab-variable">
+          <div class="admin-table-card">
+            <div class="table-toolbar">
+              <div>
+                <h3 style="font-size: 1rem; font-weight: 700; text-transform: uppercase;">Costos Variables & Insumos</h3>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">
+                  Total Acumulado en Insumos: <strong id="variable-total-sum" style="color: var(--accent-amber);">$ 0</strong>
+                </span>
+              </div>
+              <button type="button" class="admin-btn admin-btn-primary" onclick="openNewVariableCostModal()">
+                + Registrar Costo Variable
+              </button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Concepto</th>
+                    <th>Categoría</th>
+                    <th>Monto (ARS)</th>
+                    <th>Tipo de Asignación</th>
+                    <th>Notas</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="variable-tbody">
+                  <!-- Rendered by admin.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. TAB: PERSONALIZACIONES -->
+        <section class="tab-pane" id="tab-custom">
+          <div class="admin-table-card">
+            <div class="table-toolbar">
+              <div>
+                <h3 style="font-size: 1rem; font-weight: 700; text-transform: uppercase;">Solicitudes de Prendas a Medida</h3>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Pedidos personalizados enviados por clientes con sus referencias gráficas.</span>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Ticket</th>
+                    <th>Cliente</th>
+                    <th>Prenda Base</th>
+                    <th>Talle / Color</th>
+                    <th>Descripción del Diseño</th>
+                    <th>Referencia</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody id="custom-tbody">
+                  <!-- Rendered by admin.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8. TAB: CONFIGURACIÓN -->
+        <section class="tab-pane" id="tab-settings">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            
+            <!-- Commercial Settings -->
+            <div class="admin-table-card" style="padding: 1.5rem;">
+              <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1.25rem; text-transform: uppercase;">Parámetros Comerciales & Logística</h3>
+              <form id="settings-form">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">Costo de Envío Estándar (ARS)</label>
+                    <input type="number" name="shipping_cost" class="admin-input" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Umbral Envío Gratis (ARS)</label>
+                    <input type="number" name="free_shipping_threshold" class="admin-input" />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">Costo Packaging por Pedido (ARS)</label>
+                    <input type="number" name="packaging_cost_default" class="admin-input" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Comisión Estimada de Cobro (%)</label>
+                    <input type="number" step="0.1" name="payment_fee_percent" class="admin-input" required />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Dirección Local Físico (Puerto Iguazú)</label>
+                  <input type="text" name="pickup_address" class="admin-input" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Horarios de Atención para Retiro</label>
+                  <input type="text" name="pickup_hours" class="admin-input" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Instrucciones de Retiro</label>
+                  <input type="text" name="pickup_instructions" class="admin-input" required />
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">WhatsApp Oficial</label>
+                    <input type="text" name="whatsapp_number" class="admin-input" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Instagram (@)</label>
+                    <input type="text" name="instagram_handle" class="admin-input" required />
+                  </div>
+                </div>
+
+                <button type="submit" class="admin-btn admin-btn-primary" style="margin-top: 1rem;">
+                  Guardar Configuración Comercial
+                </button>
+              </form>
+            </div>
+
+            <!-- Security Settings -->
+            <div class="admin-table-card" style="padding: 1.5rem;">
+              <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1.25rem; text-transform: uppercase;">Seguridad & Clave de Administrador</h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+                La contraseña inicial ("49391826") puede ser actualizada en cualquier momento. La nueva contraseña se almacenará con cifrado scrypt del lado del servidor.
+              </p>
+
+              <form id="password-form">
+                <div class="form-group">
+                  <label class="form-label">Contraseña Actual *</label>
+                  <input type="password" name="current_password" class="admin-input" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Nueva Contraseña *</label>
+                  <input type="password" name="new_password" class="admin-input" required minlength="6" />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Confirmar Nueva Contraseña *</label>
+                  <input type="password" name="confirm_password" class="admin-input" required minlength="6" />
+                </div>
+
+                <button type="submit" class="admin-btn admin-btn-secondary" style="margin-top: 1rem;">
+                  Actualizar Contraseña
+                </button>
+              </form>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- MODAL: DESGLOSE FINANCIERO INDIVIDUAL POR PEDIDO -->
+  <div class="admin-modal-backdrop" id="order-audit-modal">
+    <div class="admin-modal-box">
+      <div class="admin-modal-header">
+        <div>
+          <h3 class="admin-modal-title">Desglose Financiero del Pedido</h3>
+          <span style="font-size: 0.75rem; color: var(--text-muted);" id="audit-order-num">NV-2026-0000</span>
+        </div>
+        <button type="button" class="drawer-close-btn" onclick="closeOrderAuditModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="admin-modal-body">
+        <div style="font-size: 0.85rem; margin-bottom: 1rem;">
+          <div>Cliente: <strong id="audit-customer" style="color: var(--text-main);"></strong></div>
+          <div>Modalidad: <span id="audit-delivery" class="badge badge-charcoal"></span></div>
+        </div>
+
+        <!-- Items Table -->
+        <div class="audit-section">
+          <div class="audit-section-title">Prendas del Pedido</div>
+          <table class="admin-table" style="font-size: 0.8rem;">
+            <thead>
+              <tr>
+                <th>Prenda</th>
+                <th>Cant.</th>
+                <th>Precio Venta</th>
+                <th>Costo Confección</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody id="audit-items-tbody"></tbody>
+          </table>
+        </div>
+
+        <!-- Incomes -->
+        <div class="audit-section">
+          <div class="audit-section-title">1. Ingresos Totales de la Venta</div>
+          <div class="audit-row">
+            <span>Venta de Productos</span>
+            <strong id="audit-inc-products">$ 0</strong>
+          </div>
+          <div class="audit-row">
+            <span>Importe Envío Cobrado al Cliente</span>
+            <strong id="audit-inc-shipping">$ 0</strong>
+          </div>
+          <div class="audit-row" style="border-top: 1px solid var(--admin-border); margin-top: 0.35rem; padding-top: 0.35rem;">
+            <strong>Total Ingreso Facturado</strong>
+            <strong id="audit-inc-total" style="color: var(--text-main);">$ 0</strong>
+          </div>
+        </div>
+
+        <!-- Direct Variable Costs -->
+        <div class="audit-section">
+          <div class="audit-section-title">2. Costos Variables Directos Asociados</div>
+          <div class="audit-row">
+            <span>Costo de Fabricación de las Prendas</span>
+            <span id="audit-cost-prod" style="color: var(--accent-red);">$ 0</span>
+          </div>
+          <div class="audit-row">
+            <span>Packaging & Embalaje</span>
+            <span id="audit-cost-pack" style="color: var(--accent-red);">$ 0</span>
+          </div>
+          <div class="audit-row">
+            <span>Costo Real del Envío (Correo)</span>
+            <span id="audit-cost-ship" style="color: var(--accent-red);">$ 0</span>
+          </div>
+          <div class="audit-row">
+            <span>Comisión de Cobranza Estimada</span>
+            <span id="audit-cost-fee" style="color: var(--accent-red);">$ 0</span>
+          </div>
+          <div class="audit-row" style="border-top: 1px solid var(--admin-border); margin-top: 0.35rem; padding-top: 0.35rem;">
+            <strong>Total Costos Variables</strong>
+            <strong id="audit-cost-var-total" style="color: var(--accent-red);">$ 0</strong>
+          </div>
+        </div>
+
+        <!-- Gross Profit -->
+        <div class="audit-section" style="background-color: #16181e;">
+          <div class="audit-row">
+            <span style="font-weight: 700; text-transform: uppercase;">Ganancia Bruta del Pedido:</span>
+            <strong id="audit-gross-profit" style="font-size: 1.15rem; color: var(--text-main);">$ 0</strong>
+          </div>
+          <div class="audit-row">
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Margen Bruto sobre Venta:</span>
+            <span id="audit-gross-margin" style="font-weight: 600;">0%</span>
+          </div>
+        </div>
+
+        <!-- Fixed Costs Allocation & Net Profit -->
+        <div class="audit-section">
+          <div class="audit-section-title">3. Rentabilidad Neta Estimada (con Prorrateo de Costos Fijos)</div>
+          <div class="audit-row">
+            <span>Asignación Proporcional de Costos Fijos del Mes</span>
+            <span id="audit-fixed-allocated" style="color: var(--accent-blue);">$ 0</span>
+          </div>
+          <div style="font-size: 0.72rem; color: var(--text-muted); margin: 0.25rem 0 0.75rem;">
+            * Se distribuye la cuota proporcional del alquiler, sueldos y servicios del taller de Puerto Iguazú sin duplicar deducciones generales.
+          </div>
+
+          <div class="audit-total-card">
+            <div>
+              <div style="font-size: 0.8rem; text-transform: uppercase; font-weight: 700; color: var(--text-main);">Ganancia Neta del Pedido</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Margen Neto: <strong id="audit-net-margin">0%</strong></div>
+            </div>
+            <div class="audit-profit-val" id="audit-net-profit">$ 0</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="admin-modal-footer">
+        <button type="button" class="admin-btn admin-btn-secondary" onclick="closeOrderAuditModal()">Cerrar Desglose</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PRODUCT CREATE / EDIT -->
+  <div class="admin-modal-backdrop" id="product-modal">
+    <div class="admin-modal-box">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title" id="product-modal-title">Nueva Prenda</h3>
+        <button type="button" class="drawer-close-btn" onclick="closeProductModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <form id="product-form">
+        <input type="hidden" name="productId" />
+        <div class="admin-modal-body">
+          <div class="form-group">
+            <label class="form-label">Nombre de la Prenda *</label>
+            <input type="text" name="name" class="admin-input" required placeholder="Ej: Remera Boxy Heavyweight 'Eclipse'" />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Categoría *</label>
+              <select name="category" class="admin-select" required>
+                <option value="Remeras">Remeras</option>
+                <option value="Hoodies y buzos">Hoodies y buzos</option>
+                <option value="Pantalones">Pantalones</option>
+                <option value="Accesorios">Accesorios</option>
+                <option value="Indumentaria personalizada">Indumentaria personalizada</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Stock Disponible *</label>
+              <input type="number" name="stock" class="admin-input" required value="10" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Precio de Venta al Público (ARS) *</label>
+              <input type="number" name="price" class="admin-input" required placeholder="Ej: 38000" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Costo de Fabricación Unitario (ARS) *</label>
+              <input type="number" name="cost_price" class="admin-input" required placeholder="Ej: 14500" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Talles Disponibles</label>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.35rem;">
+              <label style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.85rem;">
+                <input type="checkbox" id="sz-cb-S" value="S" checked /> S
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.85rem;">
+                <input type="checkbox" id="sz-cb-M" value="M" checked /> M
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.85rem;">
+                <input type="checkbox" id="sz-cb-L" value="L" checked /> L
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.85rem;">
+                <input type="checkbox" id="sz-cb-XL" value="XL" checked /> XL
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.85rem;">
+                <input type="checkbox" id="sz-cb-XXL" value="XXL" /> XXL
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.85rem;">
+                <input type="checkbox" id="sz-cb-Único" value="Único" /> Único
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Descripción Editorial</label>
+            <textarea name="description" class="admin-textarea" placeholder="Gramaje, tela, tipo de calce, terminaciones..."></textarea>
+          </div>
+
+          <!-- Product Image Upload -->
+          <div class="form-group">
+            <label class="form-label">Fotografía del Producto</label>
+            <input type="file" id="prod-file-input" accept="image/*" class="admin-input" style="padding: 0.4rem;" />
+            <div id="prod-preview-wrap" style="display: none; align-items: center; gap: 1rem; margin-top: 0.75rem;">
+              <img id="prod-preview-img" src="" style="width: 60px; height: 75px; object-fit: cover; border-radius: 4px; border: 1px solid var(--admin-border);" />
+              <span style="font-size: 0.8rem; color: var(--text-muted);">Imagen lista para guardar</span>
+            </div>
+          </div>
+
+          <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
+            <input type="checkbox" name="is_featured" id="prod-is-featured" />
+            <label for="prod-is-featured" style="font-size: 0.85rem; font-weight: 600;">Destacar en la portada</label>
+          </div>
+        </div>
+
+        <div class="admin-modal-footer">
+          <button type="button" class="admin-btn admin-btn-secondary" onclick="closeProductModal()">Cancelar</button>
+          <button type="submit" class="admin-btn admin-btn-primary">Guardar Prenda</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: NEW FIXED COST -->
+  <div class="admin-modal-backdrop" id="fixed-cost-modal">
+    <div class="admin-modal-box" style="max-width: 480px;">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title">Registrar Costo Fijo</h3>
+        <button type="button" class="drawer-close-btn" onclick="closeFixedCostModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <form id="fixed-cost-form">
+        <div class="admin-modal-body">
+          <div class="form-group">
+            <label class="form-label">Concepto *</label>
+            <input type="text" name="concept" class="admin-input" required placeholder="Ej: Alquiler Showroom y Taller" />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Categoría *</label>
+              <select name="category" class="admin-select" required>
+                <option value="Alquiler">Alquiler</option>
+                <option value="Sueldos">Sueldos</option>
+                <option value="Electricidad">Electricidad</option>
+                <option value="Internet">Internet</option>
+                <option value="Mantenimiento">Mantenimiento</option>
+                <option value="Servicios">Servicios</option>
+                <option value="Otros">Otros</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Monto Mensual (ARS) *</label>
+              <input type="number" name="amount" class="admin-input" required placeholder="Ej: 320000" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Frecuencia</label>
+            <input type="text" name="frequency" class="admin-input" value="Mensual" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Notas Adicionales</label>
+            <input type="text" name="notes" class="admin-input" placeholder="Detalle o vencimiento" />
+          </div>
+        </div>
+
+        <div class="admin-modal-footer">
+          <button type="button" class="admin-btn admin-btn-secondary" onclick="closeFixedCostModal()">Cancelar</button>
+          <button type="submit" class="admin-btn admin-btn-primary">Guardar Costo Fijo</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: NEW VARIABLE COST -->
+  <div class="admin-modal-backdrop" id="variable-cost-modal">
+    <div class="admin-modal-box" style="max-width: 480px;">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title">Registrar Costo Variable</h3>
+        <button type="button" class="drawer-close-btn" onclick="closeVariableCostModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <form id="variable-cost-form">
+        <div class="admin-modal-body">
+          <div class="form-group">
+            <label class="form-label">Concepto *</label>
+            <input type="text" name="concept" class="admin-input" required placeholder="Ej: Lote 100 Cajas de Packaging Nova Vogue" />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Categoría *</label>
+              <select name="category" class="admin-select" required>
+                <option value="Materia prima">Materia prima</option>
+                <option value="Telas">Telas</option>
+                <option value="Estampados">Estampados</option>
+                <option value="Bordados">Bordados</option>
+                <option value="Packaging">Packaging</option>
+                <option value="Etiquetas">Etiquetas</option>
+                <option value="Fabricación">Fabricación</option>
+                <option value="Comisiones por venta">Comisiones por venta</option>
+                <option value="Otros">Otros</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Monto (ARS) *</label>
+              <input type="number" name="amount" class="admin-input" required placeholder="Ej: 95000" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Tipo de Asignación</label>
+            <select name="unit_type" class="admin-select">
+              <option value="Por unidad producida">Por unidad producida</option>
+              <option value="Por pedido">Por pedido</option>
+              <option value="Por lote de producción">Por lote de producción</option>
+              <option value="Gasto general variable">Gasto general variable</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Notas</label>
+            <input type="text" name="notes" class="admin-input" placeholder="Proveedor, factura o especificación" />
+          </div>
+        </div>
+
+        <div class="admin-modal-footer">
+          <button type="button" class="admin-btn admin-btn-secondary" onclick="closeVariableCostModal()">Cancelar</button>
+          <button type="submit" class="admin-btn admin-btn-primary">Guardar Costo Variable</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="./assets/chart.umd.min.js"></script>
+  <script src="./js/admin.js"></script>
+</body>
+</html>

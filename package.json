@@ -1,0 +1,11 @@
+{
+  "name": "nova-vogue",
+  "version": "1.0.0",
+  "description": "Tienda Online & Sistema de Administración Comercial y Financiera para NOVA VOGUE (Puerto Iguazú, Misiones, Argentina)",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "agy-node src/server.js"
+  },
+  "author": "Nova Vogue",
+  "license": "ISC"
+}

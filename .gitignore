@@ -1,0 +1,13 @@
+# Dependencias
+node_modules/
+
+# Archivos de entorno y logs
+.env
+*.log
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Base de datos local (opcional: quitar si deseas incluir la demo en el repo)
+# data/*.sqlite
